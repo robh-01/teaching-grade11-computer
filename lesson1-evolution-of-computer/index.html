@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evolution of Computer Technology — Grade 11</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#1e1510;
+  font-family:Georgia,'Iowan Old Style','Times New Roman',serif;
+  color:var(--ink);
+  overflow:hidden;
+}
+:root{
+  --paper:#f1e7cf;
+  --paper2:#e6d7b5;
+  --ink:#36281a;
+  --soft:#6b5941;
+  --accent:#a14e24;
+  --accent-soft:rgba(161,78,36,.12);
+  --teal:#2f5d50;
+  --line:#a08a62;
+  --frame:#7a623f;
+  --shadow:rgba(60,38,16,.28);
+}
+.deck{position:absolute;inset:0}
+.slide{
+  position:absolute;inset:0;
+  display:none;
+  flex-direction:column;
+  padding:clamp(14px,3vh,34px) clamp(20px,4vw,60px) clamp(48px,8vh,72px);
+  background:radial-gradient(120% 120% at 50% 0%,#f8f0dc 0%,var(--paper) 55%,var(--paper2) 100%);
+  overflow:hidden;
+}
+.slide.active{display:flex;animation:in .45s ease}
+@keyframes in{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+.slide::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg,rgba(120,90,50,.05) 0 1px,transparent 1px 26px),
+    repeating-linear-gradient(90deg,rgba(120,90,50,.04) 0 1px,transparent 1px 96px);
+  mix-blend-mode:multiply;
+}
+.slide>*{position:relative;z-index:1}
+
+.head{display:flex;align-items:baseline;gap:16px;border-bottom:3px double var(--frame);padding-bottom:8px;margin-bottom:clamp(8px,1.8vh,16px);flex:none}
+.head h2{font-size:clamp(1.5rem,5.4vh,3.2rem);color:var(--accent);line-height:1.08;font-weight:600}
+.head .tag{margin-left:auto;font-family:'Courier New',Courier,monospace;font-size:clamp(.6rem,1.6vh,.95rem);color:var(--soft);letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.slide h3{font-size:clamp(1rem,3vh,1.7rem);color:var(--teal);font-weight:600;margin-bottom:2px}
+
+.body{display:flex;gap:clamp(18px,3.5vw,50px);flex:1;min-height:0;padding:clamp(2px,.6vh,6px) 0}
+.bullets{flex:1 1 48%;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.bullets ul{list-style:none}
+.bullets>ul>li{position:relative;padding-left:1.15em;margin-bottom:clamp(4px,.95vh,9px);font-size:clamp(.92rem,2.5vh,1.42rem);line-height:1.42;color:var(--ink)}
+.bullets>ul>li::before{content:"▸";position:absolute;left:0;color:var(--accent)}
+.bullets ul ul{margin:2px 0 2px 1.1em}
+.bullets ul ul li{font-size:.88em;color:var(--soft);padding-left:1.05em;position:relative;margin-bottom:1px;line-height:1.35}
+.bullets ul ul li::before{content:"–";position:absolute;left:0;color:var(--teal)}
+.bullets strong,.bullets b{color:var(--accent);font-weight:700}
+.fact{margin-top:clamp(6px,1.4vh,12px);border:2px dashed var(--accent);background:var(--accent-soft);padding:7px 12px;font-size:clamp(.78rem,2vh,1.08rem);border-radius:4px;color:var(--ink)}
+.fact .fl{font-family:'Courier New',Courier,monospace;font-size:.78em;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;font-weight:700}
+
+.fig{flex:1 1 48%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:0;position:relative;padding:0 clamp(4px,.8vw,12px)}
+.fig .shot{display:flex;align-items:center;justify-content:center;width:100%;flex:1;min-height:0}
+.fig img{max-width:100%;max-height:100%;object-fit:contain;border:1px solid var(--line);padding:3px;background:#fffcf0;box-shadow:0 6px 18px var(--shadow);border-radius:2px}
+.fig .zoom{width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.fig .zoom img{transform:scale(1.7)}
+.fig svg{max-width:100%;max-height:100%;height:auto}
+.fig figcaption{font-family:'Courier New',Courier,monospace;font-size:clamp(.6rem,1.5vh,.85rem);color:var(--soft);letter-spacing:.5px}
+
+.slide.divider{justify-content:center;align-items:center;text-align:center}
+.divider .kicker{font-family:'Courier New',Courier,monospace;letter-spacing:5px;text-transform:uppercase;color:var(--teal);font-size:clamp(.75rem,2vh,1.05rem);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:7px 20px;display:inline-block}
+.divider h2{font-size:clamp(2rem,8.5vh,4.8rem);color:var(--accent);margin:16px 0 8px;line-height:1.05;font-weight:600}
+.divider .dnum{font-size:clamp(2.6rem,9vh,5.4rem);color:rgba(161,78,36,.25);font-family:'Courier New',Courier,monospace;line-height:1}
+.divider .hline{width:min(50vw,420px);height:2px;background:var(--line);margin:12px auto}
+.divider .chapter{font-family:'Courier New',Courier,monospace;font-size:clamp(.7rem,1.9vh,1rem);color:var(--soft);letter-spacing:3px;text-transform:uppercase;margin-top:4px}
+
+#progress{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(0,0,0,.14);z-index:50}
+#progBar{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--teal))}
+.chrome{
+  position:fixed;bottom:0;left:0;right:0;display:flex;gap:8px;align-items:center;justify-content:center;
+  padding:6px 10px;z-index:60;background:#241a12;box-shadow:0 -2px 8px rgba(0,0,0,.35);
+}
+.chrome button{background:#3a2c1e;color:#f1e7cf;border:1px solid #5c4a37;border-radius:3px;font-family:'Courier New',Courier,monospace;font-size:.8rem;padding:4px 12px;cursor:pointer;transition:background .15s}
+.chrome button:hover{background:var(--accent);border-color:var(--accent)}
+#counter{color:#e9dcc0;font-family:'Courier New',Courier,monospace;font-size:.8rem;letter-spacing:1px;padding:0 8px}
+
+#overview{position:fixed;inset:0;background:rgba(30,21,16,.95);display:none;z-index:70;overflow:auto;padding:48px 24px}
+#overview.show{display:block}
+#overview .ov-head{max-width:1200px;margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center;color:#e9dcc0;font-family:'Courier New',Courier,monospace;letter-spacing:2px;text-transform:uppercase}
+#overview .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;max-width:1200px;margin:0 auto}
+#overview .card{background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:10px 12px;font-family:'Courier New',Courier,monospace;font-size:.72rem;cursor:pointer;text-align:left;line-height:1.3}
+#overview .card:hover{background:#fff;border-color:var(--accent)}
+#overview .card .n{display:block;color:var(--accent);font-size:.6rem;letter-spacing:1px}
+#overview .card .t{display:block;margin-top:3px}
+#overview .card.cur{outline:2px solid var(--accent)}
+</style>
+</head>
+<body>
+<div id="progress"><span id="progBar"></span></div>
+
+<main class="deck" id="deck">
+<!-- ============ 1. HISTORY OF COMPUTER ============ -->
+<section class="slide active" data-title="History of Computer">
+  <header class="head"><h2>History of Computer</h2><span class="tag">Lesson 1</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>The history of computers began thousands of years ago.</li>
+        <li>Early humans used simple objects as counting tools.</li>
+        <li>Common counting tools included:
+          <ul>
+            <li>Sticks</li>
+            <li>Bones</li>
+            <li>Stones</li>
+          </ul>
+        </li>
+        <li>Over time, human thinking and technology improved.</li>
+        <li>Counting devices gradually became more sophisticated.</li>
+        <li>This development eventually led to modern computers.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 700 230" role="img" aria-label="Stones, abacus, mechanical calculator, modern computer">
+          <defs>
+            <marker id="ar1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L7,3 L0,6 Z" fill="#a14e24"/>
+            </marker>
+          </defs>
+          <line x1="140" y1="120" x2="198" y2="120" stroke="#a14e24" stroke-width="2" marker-end="url(#ar1)"/>
+          <line x1="318" y1="120" x2="376" y2="120" stroke="#a14e24" stroke-width="2" marker-end="url(#ar1)"/>
+          <line x1="496" y1="120" x2="554" y2="120" stroke="#a14e24" stroke-width="2" marker-end="url(#ar1)"/>
+          <!-- stones -->
+          <circle cx="95" cy="120" r="17" fill="#9a8a72" stroke="#4a3a26" stroke-width="2"/>
+          <circle cx="117" cy="108" r="13" fill="#a89a80" stroke="#4a3a26" stroke-width="2"/>
+          <circle cx="113" cy="130" r="12" fill="#8c7c66" stroke="#4a3a26" stroke-width="2"/>
+          <text x="105" y="170" font-family="Courier New" font-size="14" text-anchor="middle" fill="#6b5941">Stones</text>
+          <!-- abacus -->
+          <g transform="translate(230,70)">
+            <rect x="0" y="0" width="90" height="100" rx="4" fill="#c19a6b" stroke="#6b4f2a" stroke-width="2"/>
+            <rect x="0" y="46" width="90" height="6" fill="#8a5a2b"/>
+            <g fill="#8a5a2b" stroke="#5c3a1e" stroke-width="1">
+              <rect x="18" y="14" width="16" height="20" rx="7"/><rect x="18" y="62" width="16" height="14" rx="7"/>
+              <rect x="40" y="14" width="16" height="20" rx="7"/><rect x="40" y="62" width="16" height="14" rx="7"/>
+              <rect x="62" y="14" width="16" height="20" rx="7"/><rect x="62" y="62" width="16" height="14" rx="7"/>
+              <rect x="18" y="80" width="16" height="14" rx="7"/><rect x="40" y="80" width="16" height="14" rx="7"/><rect x="62" y="80" width="16" height="14" rx="7"/>
+            </g>
+          </g>
+          <text x="275" y="190" font-family="Courier New" font-size="14" text-anchor="middle" fill="#6b5941">Abacus</text>
+          <!-- mechanical calculator -->
+          <g transform="translate(398,60)">
+            <rect x="0" y="30" width="88" height="60" rx="3" fill="#b8935f" stroke="#6b4f2a" stroke-width="2"/>
+            <circle cx="20" cy="78" r="12" fill="#8a5a2b" stroke="#5c3a1e" stroke-width="2"/>
+            <circle cx="68" cy="78" r="12" fill="#8a5a2b" stroke="#5c3a1e" stroke-width="2"/>
+            <rect x="8" y="42" width="72" height="12" fill="#f1e7cf" stroke="#6b4f2a"/>
+          </g>
+          <text x="442" y="160" font-family="Courier New" font-size="14" text-anchor="middle" fill="#6b5941">Mechanical calculator</text>
+          <!-- modern computer -->
+          <g transform="translate(560,50)">
+            <rect x="0" y="0" width="78" height="52" rx="3" fill="#2f5d50" stroke="#1e3d34" stroke-width="2"/>
+            <rect x="8" y="8" width="62" height="30" fill="#dcebe4" stroke="#1e3d34"/>
+            <rect x="22" y="60" width="34" height="26" fill="#c19a6b" stroke="#6b4f2a"/>
+            <rect x="26" y="64" width="8" height="8" fill="#a14e24"/>
+          </g>
+          <text x="599" y="140" font-family="Courier New" font-size="14" text-anchor="middle" fill="#6b5941">Modern computer</text>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 2. EVOLUTION OF COMPUTING DEVICES ============ -->
+<section class="slide" data-title="Evolution of Computing Devices">
+  <header class="head"><h2>Evolution of Computing Devices</h2><span class="tag">Lesson 1</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Computing devices developed gradually over time.</li>
+        <li>Each invention improved the way calculations were performed.</li>
+        <li>Early devices were mainly <strong>mechanical</strong>.</li>
+        <li>Later devices used <strong>electricity</strong>.</li>
+        <li>Eventually, <strong>electronic components</strong> were introduced.</li>
+        <li>These developments led to modern computers.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 660 160" role="img" aria-label="Timeline: mechanical to electromechanical to electronic">
+          <defs>
+            <marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L7,3 L0,6 Z" fill="#a14e24"/>
+            </marker>
+          </defs>
+          <line x1="60" y1="70" x2="620" y2="70" stroke="#a08a62" stroke-width="3"/>
+          <line x1="150" y1="70" x2="210" y2="70" stroke="#a14e24" stroke-width="2" marker-end="url(#ar2)"/>
+          <line x1="390" y1="70" x2="450" y2="70" stroke="#a14e24" stroke-width="2" marker-end="url(#ar2)"/>
+          <line x1="60" y1="70" x2="110" y2="70" stroke="#a14e24" stroke-width="2" marker-end="url(#ar2)"/>
+          <!-- mechanical: gear -->
+          <g transform="translate(60,70)">
+            <circle r="22" fill="#b8935f" stroke="#5c3a1e" stroke-width="2"/>
+            <g stroke="#5c3a1e" stroke-width="3"><line x1="-26" y1="0" x2="-14" y2="0"/><line x1="14" y1="0" x2="26" y2="0"/><line x1="0" y1="-26" x2="0" y2="-14"/><line x1="0" y1="14" x2="0" y2="26"/></g>
+            <circle r="8" fill="#8a5a2b"/>
+          </g>
+          <text x="60" y="116" font-family="Courier New" font-size="15" text-anchor="middle" fill="#36281a">Mechanical</text>
+          <!-- electromechanical: gear + bolt -->
+          <g transform="translate(300,70)">
+            <circle r="22" fill="#b8935f" stroke="#5c3a1e" stroke-width="2"/>
+            <g stroke="#5c3a1e" stroke-width="3"><line x1="-26" y1="0" x2="-14" y2="0"/><line x1="14" y1="0" x2="26" y2="0"/><line x1="0" y1="-26" x2="0" y2="-14"/><line x1="0" y1="14" x2="0" y2="26"/></g>
+            <circle r="8" fill="#8a5a2b"/>
+            <path d="M-4,-16 L2,-2 L-2,-2 L4,14" fill="none" stroke="#a14e24" stroke-width="3" stroke-linejoin="round"/>
+          </g>
+          <text x="300" y="116" font-family="Courier New" font-size="15" text-anchor="middle" fill="#36281a">Electromechanical</text>
+          <!-- electronic: chip -->
+          <g transform="translate(540,70)">
+            <rect x="-24" y="-24" width="48" height="48" rx="3" fill="#2f5d50" stroke="#1e3d34" stroke-width="2"/>
+            <g stroke="#dcebe4" stroke-width="2"><line x1="-24" y1="-12" x2="-14" y2="-12"/><line x1="-24" y1="0" x2="-14" y2="0"/><line x1="-24" y1="12" x2="-14" y2="12"/><line x1="14" y1="-12" x2="24" y2="-12"/><line x1="14" y1="0" x2="24" y2="0"/><line x1="14" y1="12" x2="24" y2="12"/></g>
+            <rect x="-9" y="-9" width="18" height="18" fill="#dcebe4"/>
+          </g>
+          <text x="540" y="116" font-family="Courier New" font-size="15" text-anchor="middle" fill="#36281a">Electronic</text>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: MECHANICAL CALCULATING ERA -->
+<section class="slide divider" data-title="Mechanical Calculating Era">
+  <div class="dnum">03</div>
+  <h2>Mechanical Calculating Era</h2>
+  <div class="hline"></div>
+  <span class="chapter">Chapter — Beads · Rods · Wheels · Gears</span>
+</section>
+
+<!-- ============ 3. MECHANICAL CALCULATING ERA ============ -->
+<section class="slide" data-title="Mechanical Calculating Era">
+  <header class="head"><h2>Mechanical Calculating Era</h2><span class="tag">Chapter</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>The earliest calculating devices were mainly <strong>mechanical</strong>.</li>
+        <li>They operated using physical objects such as:
+          <ul>
+            <li>Beads</li>
+            <li>Rods</li>
+            <li>Wheels</li>
+            <li>Gears</li>
+          </ul>
+        </li>
+        <li>Important devices of this era include:
+          <ul>
+            <li>Abacus</li>
+            <li>Napier's Bones</li>
+            <li>Slide Rule</li>
+            <li>Pascaline</li>
+            <li>Stepped Reckoner</li>
+            <li>Difference Engine</li>
+            <li>Analytical Engine</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 700 170" role="img" aria-label="Timeline of the seven mechanical devices">
+          <line x1="40" y1="85" x2="660" y2="85" stroke="#a08a62" stroke-width="2" stroke-dasharray="4 5"/>
+          <g font-family="Courier New" font-size="12" fill="#36281a" text-anchor="middle">
+            <g><circle cx="75" cy="85" r="5" fill="#a14e24"/><text x="75" y="70">Abacus</text><text x="75" y="110">~2000 BC</text></g>
+            <g><circle cx="175" cy="85" r="5" fill="#a14e24"/><text x="175" y="110">Napier's Bones</text><text x="175" y="125">1617</text></g>
+            <g><circle cx="275" cy="85" r="5" fill="#a14e24"/><text x="275" y="70">Slide Rule</text><text x="275" y="110">1620</text></g>
+            <g><circle cx="370" cy="85" r="5" fill="#a14e24"/><text x="370" y="110">Pascaline</text><text x="370" y="125">1642–44</text></g>
+            <g><circle cx="460" cy="85" r="5" fill="#a14e24"/><text x="460" y="70">Stepped Reckoner</text><text x="460" y="110">1673</text></g>
+            <g><circle cx="548" cy="85" r="5" fill="#a14e24"/><text x="548" y="110">Difference Engine</text><text x="548" y="125">1820s</text></g>
+            <g><circle cx="632" cy="85" r="5" fill="#a14e24"/><text x="632" y="70">Analytical Engine</text><text x="632" y="110">1830</text></g>
+          </g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: ABACUS -->
+<section class="slide divider" data-title="Abacus — Section">
+  <div class="dnum">04</div>
+  <h2>Abacus</h2>
+  <div class="hline"></div>
+  <span class="chapter">The first computer</span>
+</section>
+
+<!-- ============ 4. ABACUS ============ -->
+<section class="slide" data-title="Abacus">
+  <header class="head"><h2>Abacus</h2><span class="tag">~4000 years ago</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Abacus is believed to be the <strong>first computer</strong>.</li>
+        <li>It originated around <strong>4,000 years ago</strong>.</li>
+        <li>It was invented by <strong>Chinese</strong> people.</li>
+        <li>It was used for arithmetic calculations.</li>
+        <li>Abacus is still used in some countries.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/abacus-chinese.jpg" alt="Traditional Chinese abacus"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 5. STRUCTURE OF AN ABACUS ============ -->
+<section class="slide" data-title="Structure of an Abacus">
+  <header class="head"><h2>Structure of an Abacus</h2><span class="tag">Parts</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>An abacus consists of a <strong>wooden frame</strong>.</li>
+        <li>Metal rods hold movable <strong>beads</strong>.</li>
+        <li>A <strong>central bar</strong> separates the beads into two sections.</li>
+        <li>The upper section is called <strong>heaven</strong>.</li>
+        <li>The lower section is called <strong>earth</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 560 330" role="img" aria-label="Labeled abacus diagram with heaven and earth sections">
+          <rect x="30" y="10" width="500" height="310" rx="6" fill="#c19a6b" stroke="#6b4f2a" stroke-width="3"/>
+          <rect x="30" y="175" width="500" height="10" fill="#8a5a2b" stroke="#5c3a1e"/>
+          <g stroke="#6b4f2a" stroke-width="2">
+            <line x1="95" y1="20" x2="95" y2="315"/><line x1="175" y1="20" x2="175" y2="315"/>
+            <line x1="255" y1="20" x2="255" y2="315"/><line x1="335" y1="20" x2="335" y2="315"/><line x1="415" y1="20" x2="415" y2="315"/>
+          </g>
+          <g fill="#8a5a2b" stroke="#5c3a1e" stroke-width="1">
+            <g><rect x="82" y="45" width="26" height="34" rx="9"/><rect x="82" y="115" width="26" height="34" rx="9"/></g>
+            <g><rect x="162" y="45" width="26" height="34" rx="9"/><rect x="162" y="115" width="26" height="34" rx="9"/></g>
+            <g><rect x="242" y="45" width="26" height="34" rx="9"/><rect x="242" y="115" width="26" height="34" rx="9"/></g>
+            <g><rect x="322" y="45" width="26" height="34" rx="9"/><rect x="322" y="115" width="26" height="34" rx="9"/></g>
+            <g><rect x="402" y="45" width="26" height="34" rx="9"/><rect x="402" y="115" width="26" height="34" rx="9"/></g>
+          </g>
+          <g fill="#8a5a2b" stroke="#5c3a1e" stroke-width="1">
+            <g><rect x="84" y="200" width="22" height="18" rx="6"/><rect x="84" y="226" width="22" height="18" rx="6"/><rect x="84" y="252" width="22" height="18" rx="6"/><rect x="84" y="278" width="22" height="18" rx="6"/><rect x="84" y="300" width="22" height="16" rx="6"/></g>
+            <g><rect x="164" y="200" width="22" height="18" rx="6"/><rect x="164" y="226" width="22" height="18" rx="6"/><rect x="164" y="252" width="22" height="18" rx="6"/><rect x="164" y="278" width="22" height="18" rx="6"/><rect x="164" y="300" width="22" height="16" rx="6"/></g>
+            <g><rect x="244" y="200" width="22" height="18" rx="6"/><rect x="244" y="226" width="22" height="18" rx="6"/><rect x="244" y="252" width="22" height="18" rx="6"/><rect x="244" y="278" width="22" height="18" rx="6"/><rect x="244" y="300" width="22" height="16" rx="6"/></g>
+            <g><rect x="324" y="200" width="22" height="18" rx="6"/><rect x="324" y="226" width="22" height="18" rx="6"/><rect x="324" y="252" width="22" height="18" rx="6"/><rect x="324" y="278" width="22" height="18" rx="6"/><rect x="324" y="300" width="22" height="16" rx="6"/></g>
+            <g><rect x="404" y="200" width="22" height="18" rx="6"/><rect x="404" y="226" width="22" height="18" rx="6"/><rect x="404" y="252" width="22" height="18" rx="6"/><rect x="404" y="278" width="22" height="18" rx="6"/><rect x="404" y="300" width="22" height="16" rx="6"/></g>
+          </g>
+          <text x="500" y="100" font-family="Courier New" font-size="20" font-weight="bold" fill="#2f5d50" text-anchor="end">heaven</text>
+          <path d="M470,108 L470,160 L60,160 L60,108" fill="none" stroke="#2f5d50" stroke-width="2" stroke-dasharray="3 3"/>
+          <text x="500" y="240" font-family="Courier New" font-size="20" font-weight="bold" fill="#2f5d50" text-anchor="end">earth</text>
+          <path d="M470,232 L470,185 L60,185 L60,232" fill="none" stroke="#2f5d50" stroke-width="2" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 6. ABACUS BEADS ============ -->
+<section class="slide" data-title="Abacus Beads">
+  <header class="head"><h2>Abacus Beads</h2><span class="tag">Values</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Each upper section contains <strong>two beads</strong>.</li>
+        <li>Each upper bead represents <strong>five</strong> units.</li>
+        <li>Each lower section contains <strong>five beads</strong>.</li>
+        <li>Each lower bead represents <strong>one</strong> unit.</li>
+        <li>Beads are moved according to rules to perform calculations.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/abacus-beads.jpg" alt="Close-up of abacus upper and lower beads"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 7. ABACUS PLACE VALUE ============ -->
+<section class="slide" data-title="Abacus Place Value">
+  <header class="head"><h2>Abacus Place Value</h2><span class="tag">Columns</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Each column represents a <strong>place value</strong>.</li>
+        <li>The rightmost column represents <strong>ones</strong>.</li>
+        <li>The next column represents <strong>tens</strong>.</li>
+        <li>The next represents <strong>hundreds</strong>.</li>
+        <li>Larger columns represent thousands, millions, and so on.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 640 290" role="img" aria-label="Abacus with place-value labels above columns">
+          <rect x="50" y="40" width="520" height="200" rx="6" fill="#c19a6b" stroke="#6b4f2a" stroke-width="3"/>
+          <rect x="50" y="150" width="520" height="8" fill="#8a5a2b" stroke="#5c3a1e"/>
+          <g stroke="#6b4f2a" stroke-width="2">
+            <line x1="165" y1="50" x2="165" y2="230"/><line x1="255" y1="50" x2="255" y2="230"/>
+            <line x1="345" y1="50" x2="345" y2="230"/><line x1="435" y1="50" x2="435" y2="230"/>
+          </g>
+          <g font-family="Courier New" font-size="15" font-weight="bold" fill="#2f5d50" text-anchor="middle">
+            <text x="125" y="26">thousands</text>
+            <text x="215" y="26">hundreds</text>
+            <text x="305" y="26">tens</text>
+            <text x="395" y="26">ones</text>
+          </g>
+          <g fill="#8a5a2b" stroke="#5c3a1e" stroke-width="1">
+            <g><rect x="152" y="70" width="26" height="26" rx="8"/><rect x="152" y="108" width="26" height="26" rx="8"/></g>
+            <g><rect x="242" y="70" width="26" height="26" rx="8"/><rect x="242" y="108" width="26" height="26" rx="8"/></g>
+            <g><rect x="332" y="70" width="26" height="26" rx="8"/><rect x="332" y="108" width="26" height="26" rx="8"/></g>
+            <g><rect x="422" y="70" width="26" height="26" rx="8"/><rect x="422" y="108" width="26" height="26" rx="8"/></g>
+          </g>
+          <g fill="#8a5a2b" stroke="#5c3a1e" stroke-width="1">
+            <g><rect x="155" y="170" width="20" height="15" rx="6"/><rect x="155" y="192" width="20" height="15" rx="6"/><rect x="155" y="214" width="20" height="15" rx="6"/></g>
+            <g><rect x="245" y="170" width="20" height="15" rx="6"/><rect x="245" y="192" width="20" height="15" rx="6"/><rect x="245" y="214" width="20" height="15" rx="6"/></g>
+            <g><rect x="335" y="170" width="20" height="15" rx="6"/><rect x="335" y="192" width="20" height="15" rx="6"/><rect x="335" y="214" width="20" height="15" rx="6"/></g>
+            <g><rect x="425" y="170" width="20" height="15" rx="6"/><rect x="425" y="192" width="20" height="15" rx="6"/><rect x="425" y="214" width="20" height="15" rx="6"/></g>
+          </g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 10. ABACUS TODAY ============ -->
+<section class="slide" data-title="Abacus Today">
+  <header class="head"><h2>Abacus Today</h2><span class="tag">Still in use</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Abacus is not only a historical device.</li>
+        <li>It is still used in many countries.</li>
+        <li>Examples include:
+          <ul>
+            <li>China</li>
+            <li>Russia</li>
+            <li>Japan</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="fact"><span class="fl">Fun fact ·</span> Abacus is still used in many countries.</div>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/abacus-modern.jpg" alt="A modern abacus being used"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: NAPIER'S BONES -->
+<section class="slide divider" data-title="Napier's Bones — Section">
+  <div class="dnum">09</div>
+  <h2>Napier's Bones</h2>
+  <div class="hline"></div>
+  <span class="chapter">John Napier · 1617</span>
+</section>
+
+<!-- ============ 11. NAPIER'S BONES ============ -->
+<section class="slide" data-title="Napier's Bones">
+  <header class="head"><h2>Napier's Bones</h2><span class="tag">1617</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Invented in <strong>1617 AD</strong>.</li>
+        <li>Invented by Scottish mathematician <strong>John Napier</strong>.</li>
+        <li>It was a calculating device based on <strong>logarithms</strong>.</li>
+        <li>It consisted of <strong>11 bone rods</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/napiers-bones.jpg" alt="Historical set of Napier's Bones"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 12. HOW NAPIER'S BONES WORKED ============ -->
+<section class="slide" data-title="How Napier's Bones Worked">
+  <header class="head"><h2>How Napier's Bones Worked</h2><span class="tag">Logarithms</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Logarithms allow multiplication to be performed through <strong>addition</strong>.</li>
+        <li>Napier's Bones used this principle.</li>
+        <li>The rods contained numerical values.</li>
+        <li>The first horizontal rod starts from <strong>1 to 0</strong>.</li>
+        <li>The first vertical rod starts from <strong>1 to 9</strong>.</li>
+        <li>Multiplication was performed using addition of logarithmic values.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/napiers-bones-diagram.png" alt="Napier's Bones diagram"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: SLIDE RULE -->
+<section class="slide divider" data-title="Slide Rule — Section">
+  <div class="dnum">11</div>
+  <h2>Slide Rule</h2>
+  <div class="hline"></div>
+  <span class="chapter">William Oughtred · 1620</span>
+</section>
+
+<!-- ============ 13. SLIDE RULE ============ -->
+<section class="slide" data-title="Slide Rule">
+  <header class="head"><h2>Slide Rule</h2><span class="tag">1620</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Invented in <strong>1620 AD</strong>.</li>
+        <li>Invented by English mathematician <strong>William Oughtred</strong>.</li>
+        <li>It was based on the principle of <strong>logarithms</strong>.</li>
+        <li>It was developed after the invention of logarithms in 1617.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/slide-rule.jpg" alt="Historical slide rule"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 14. STRUCTURE OF SLIDE RULE ============ -->
+<section class="slide" data-title="Structure of Slide Rule">
+  <header class="head"><h2>Structure of Slide Rule</h2><span class="tag">Two rulers</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>A slide rule contains marked <strong>scales</strong>.</li>
+        <li>It has an <strong>inner ruler</strong>.</li>
+        <li>It has an <strong>outer ruler</strong>.</li>
+        <li>The inner ruler can be shifted in and out.</li>
+        <li>The scales are aligned to perform calculations.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 640 230" role="img" aria-label="Slide rule with inner and outer rulers labeled">
+          <rect x="40" y="30" width="560" height="52" rx="4" fill="#e8dcc0" stroke="#6b4f2a" stroke-width="2"/>
+          <g stroke="#4a3a26" stroke-width="2">
+            <line x1="80" y1="42" x2="80" y2="70"/><line x1="120" y1="42" x2="120" y2="70"/><line x1="160" y1="42" x2="160" y2="70"/>
+            <line x1="200" y1="42" x2="200" y2="70"/><line x1="240" y1="42" x2="240" y2="70"/><line x1="280" y1="42" x2="280" y2="70"/>
+            <line x1="320" y1="42" x2="320" y2="70"/><line x1="360" y1="42" x2="360" y2="70"/><line x1="400" y1="42" x2="400" y2="70"/>
+            <line x1="440" y1="42" x2="440" y2="70"/><line x1="480" y1="42" x2="480" y2="70"/><line x1="520" y1="42" x2="520" y2="70"/>
+            <line x1="560" y1="42" x2="560" y2="70"/>
+          </g>
+          <text x="320" y="106" font-family="Courier New" font-size="17" text-anchor="middle" fill="#6b5941">outer ruler</text>
+          <rect x="120" y="130" width="400" height="52" rx="4" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+          <g stroke="#4a3a26" stroke-width="2">
+            <line x1="160" y1="142" x2="160" y2="170"/><line x1="200" y1="142" x2="200" y2="170"/><line x1="240" y1="142" x2="240" y2="170"/>
+            <line x1="280" y1="142" x2="280" y2="170"/><line x1="320" y1="142" x2="320" y2="170"/><line x1="360" y1="142" x2="360" y2="170"/>
+            <line x1="400" y1="142" x2="400" y2="170"/><line x1="440" y1="142" x2="440" y2="170"/><line x1="480" y1="142" x2="480" y2="170"/>
+          </g>
+          <text x="320" y="206" font-family="Courier New" font-size="17" text-anchor="middle" fill="#a14e24">inner ruler — slides in &amp; out</text>
+          <g stroke="#a14e24" stroke-width="2"><line x1="120" y1="120" x2="120" y2="128"/><line x1="520" y1="120" x2="520" y2="128"/><line x1="122" y1="124" x2="518" y2="124"/></g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 15. USES OF SLIDE RULE ============ -->
+<section class="slide" data-title="Uses of Slide Rule">
+  <header class="head"><h2>Uses of Slide Rule</h2><span class="tag">Alignment</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Slide rule was used for calculating:
+          <ul>
+            <li>Products</li>
+            <li>Quotients</li>
+          </ul>
+        </li>
+        <li>Calculations were performed by properly <strong>aligning two scales</strong>.</li>
+        <li>It made logarithmic calculations practical.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 640 210" role="img" aria-label="Two slide-rule scales aligned to multiply">
+          <rect x="40" y="30" width="560" height="52" rx="4" fill="#e8dcc0" stroke="#6b4f2a" stroke-width="2"/>
+          <g font-family="Courier New" font-size="14" fill="#36281a">
+            <text x="80" y="64" text-anchor="middle">1</text><text x="130" y="64" text-anchor="middle">2</text>
+            <text x="180" y="64" text-anchor="middle">3</text><text x="230" y="64" text-anchor="middle">4</text>
+            <text x="280" y="64" text-anchor="middle">5</text><text x="330" y="64" text-anchor="middle">6</text>
+            <text x="380" y="64" text-anchor="middle">7</text><text x="430" y="64" text-anchor="middle">8</text>
+            <text x="480" y="64" text-anchor="middle">9</text><text x="530" y="64" text-anchor="middle">10</text>
+          </g>
+          <g stroke="#4a3a26" stroke-width="2"><line x1="80" y1="44" x2="80" y2="70"/><line x1="130" y1="44" x2="130" y2="70"/><line x1="180" y1="44" x2="180" y2="70"/><line x1="230" y1="44" x2="230" y2="70"/><line x1="280" y1="44" x2="280" y2="70"/><line x1="330" y1="44" x2="330" y2="70"/><line x1="380" y1="44" x2="380" y2="70"/><line x1="430" y1="44" x2="430" y2="70"/><line x1="480" y1="44" x2="480" y2="70"/><line x1="530" y1="44" x2="530" y2="70"/></g>
+          <text x="320" y="106" font-family="Courier New" font-size="16" text-anchor="middle" fill="#6b5941">2 × 3 = 6</text>
+          <rect x="130" y="130" width="360" height="52" rx="4" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+          <g font-family="Courier New" font-size="14" fill="#36281a">
+            <text x="170" y="164" text-anchor="middle">1</text><text x="220" y="164" text-anchor="middle">2</text>
+            <text x="270" y="164" text-anchor="middle">3</text><text x="320" y="164" text-anchor="middle">4</text>
+            <text x="370" y="164" text-anchor="middle">5</text><text x="420" y="164" text-anchor="middle">6</text>
+            <text x="470" y="164" text-anchor="middle">7</text>
+          </g>
+          <g stroke="#4a3a26" stroke-width="2"><line x1="170" y1="144" x2="170" y2="170"/><line x1="220" y1="144" x2="220" y2="170"/><line x1="270" y1="144" x2="270" y2="170"/><line x1="320" y1="144" x2="320" y2="170"/><line x1="370" y1="144" x2="370" y2="170"/><line x1="420" y1="144" x2="420" y2="170"/><line x1="470" y1="144" x2="470" y2="170"/></g>
+          <g stroke="#a14e24" stroke-width="3"><line x1="220" y1="34" x2="220" y2="124"/><line x1="330" y1="124" x2="330" y2="34" stroke-dasharray="4 4"/></g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: PASCALINE -->
+<section class="slide divider" data-title="Pascaline — Section">
+  <div class="dnum">14</div>
+  <h2>Pascaline</h2>
+  <div class="hline"></div>
+  <span class="chapter">Blaise Pascal · 1642–1644</span>
+</section>
+
+<!-- ============ 16. PASCAL'S CALCULATING/ADDING MACHINE ============ -->
+<section class="slide" data-title="Pascal's Calculating/Adding Machine">
+  <header class="head"><h2>Pascal's Calculating/Adding Machine</h2><span class="tag">1642–1644</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Also called:
+          <ul>
+            <li>Arithmetic Machine</li>
+            <li>Adding Machine</li>
+            <li>Pascaline</li>
+          </ul>
+        </li>
+        <li>Developed between <strong>1642 and 1644</strong>.</li>
+        <li>Invented by French mathematician-philosopher <strong>Blaise Pascal</strong>.</li>
+        <li>It is considered the <strong>first mechanical and automatic calculator</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/pascaline.jpg" alt="Historical Pascaline machine"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 17. HOW PASCALINE WORKED ============ -->
+<section class="slide" data-title="How Pascaline Worked">
+  <header class="head"><h2>How Pascaline Worked</h2><span class="tag">Mechanics</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Pascal invented the machine to help his <strong>father</strong>.</li>
+        <li>His father was a <strong>tax accountant</strong>.</li>
+        <li>Pascaline could perform:
+          <ul>
+            <li>Addition</li>
+            <li>Subtraction</li>
+          </ul>
+        </li>
+        <li>It was made as a wooden box.</li>
+        <li>It contained gears and wheels.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/pascaline-mechanism.jpg" alt="Pascaline mechanism with gears and wheels"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 18. PASCALINE'S GEARS ============ -->
+<section class="slide" data-title="Pascaline's Gears">
+  <header class="head"><h2>Pascaline's Gears</h2><span class="tag">Wheels &amp; windows</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>The machine used interconnected <strong>wheels</strong>.</li>
+        <li>Rotating one wheel one revolution moved the neighboring wheel.</li>
+        <li>A series of <strong>windows</strong> was placed above the wheels.</li>
+        <li>The windows displayed the calculated totals.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><div class="zoom"><img src="images/pascaline-mechanism.jpg" alt="Close-up of Pascaline's numbered wheels"></div></div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: STEPPED RECKONER -->
+<section class="slide divider" data-title="Stepped Reckoner — Section">
+  <div class="dnum">17</div>
+  <h2>Stepped Reckoner</h2>
+  <div class="hline"></div>
+  <span class="chapter">Gottfried Wilhelm Leibnitz · 1673</span>
+</section>
+
+<!-- ============ 19. STEPPED RECKONER / LEIBNITZ WHEEL ============ -->
+<section class="slide" data-title="Stepped Reckoner / Leibnitz Wheel">
+  <header class="head"><h2>Stepped Reckoner / Leibnitz Wheel</h2><span class="tag">1673</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Developed in <strong>1673 AD</strong>.</li>
+        <li>Developed by German mathematician-philosopher <strong>Gottfried Wilhelm Leibnitz</strong>.</li>
+        <li>Leibnitz improved Pascal's invention.</li>
+        <li>It was a <strong>digital mechanical calculator</strong>.</li>
+        <li>It was called the <strong>Stepped Reckoner</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/stepped-reckoner.jpg" alt="Historical Stepped Reckoner"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 20. FLUTED DRUMS ============ -->
+<section class="slide" data-title="Fluted Drums">
+  <header class="head"><h2>Fluted Drums</h2><span class="tag">Mechanism</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>The Stepped Reckoner used <strong>fluted drums</strong>.</li>
+        <li>It used these instead of the gears used in Pascal's machine.</li>
+        <li>The fluted drums enabled <strong>mechanical calculation</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/stepped-mechanism.png" alt="Close-up of the Stepped Reckoner's fluted drums"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: DIFFERENCE ENGINE -->
+<section class="slide divider" data-title="Difference Engine — Section">
+  <div class="dnum">19</div>
+  <h2>Difference Engine</h2>
+  <div class="hline"></div>
+  <span class="chapter">Charles Babbage · early 1820s</span>
+</section>
+
+<!-- ============ 21. DIFFERENCE ENGINE ============ -->
+<section class="slide" data-title="Difference Engine">
+  <header class="head"><h2>Difference Engine</h2><span class="tag">1820s</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Designed in the early <strong>1820s</strong>.</li>
+        <li>Designed by <strong>Charles Babbage</strong>.</li>
+        <li>Babbage is known as the <strong>“Father of Modern Computer.”</strong></li>
+        <li>It was a <strong>mechanical computer</strong>.</li>
+        <li>It could perform simple calculations.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/difference-engine.jpg" alt="Charles Babbage's Difference Engine"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 22. PURPOSE OF DIFFERENCE ENGINE ============ -->
+<section class="slide" data-title="Purpose of Difference Engine">
+  <header class="head"><h2>Purpose of Difference Engine</h2><span class="tag">Numerical tables</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>The Difference Engine was <strong>steam-driven</strong>.</li>
+        <li>It was designed to calculate <strong>numerical tables</strong>.</li>
+        <li>It could be used for tables such as:
+          <ul>
+            <li>Logarithm tables</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <div style="display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap">
+          <img src="images/difference-engine.jpg" alt="Difference Engine" style="max-height:52vh">
+          <svg viewBox="0 0 240 230" role="img" aria-label="Example numerical table">
+            <rect x="10" y="10" width="220" height="210" rx="4" fill="#fffcf0" stroke="#6b4f2a" stroke-width="2"/>
+            <text x="120" y="40" font-family="Courier New" font-size="15" font-weight="bold" fill="#2f5d50" text-anchor="middle">log tables</text>
+            <line x1="10" y1="50" x2="230" y2="50" stroke="#a08a62"/>
+            <text x="40" y="78" font-family="Courier New" font-size="15" fill="#36281a" text-anchor="middle">n</text>
+            <text x="180" y="78" font-family="Courier New" font-size="15" fill="#36281a" text-anchor="middle">log n</text>
+            <line x1="120" y1="60" x2="120" y2="205" stroke="#a08a62"/>
+            <g font-family="Courier New" font-size="14" fill="#36281a">
+              <text x="40" y="105" text-anchor="middle">1</text><text x="180" y="105" text-anchor="middle">0.000</text>
+              <text x="40" y="135" text-anchor="middle">2</text><text x="180" y="135" text-anchor="middle">0.301</text>
+              <text x="40" y="165" text-anchor="middle">3</text><text x="180" y="165" text-anchor="middle">0.477</text>
+              <text x="40" y="195" text-anchor="middle">4</text><text x="180" y="195" text-anchor="middle">0.602</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: ANALYTICAL ENGINE -->
+<section class="slide divider" data-title="Analytical Engine — Section">
+  <div class="dnum">21</div>
+  <h2>Analytical Engine</h2>
+  <div class="hline"></div>
+  <span class="chapter">Charles Babbage · 1830</span>
+</section>
+
+<!-- ============ 23. ANALYTICAL ENGINE ============ -->
+<section class="slide" data-title="Analytical Engine">
+  <header class="head"><h2>Analytical Engine</h2><span class="tag">1830</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Developed by <strong>Charles Babbage</strong>.</li>
+        <li>Development began around <strong>1830 AD</strong>.</li>
+        <li>It was a <strong>mechanical computer</strong>.</li>
+        <li>It used <strong>punch cards as input</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/analytical-engine.jpg" alt="Model of Babbage's Analytical Engine"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 24. CAPABILITIES OF ANALYTICAL ENGINE ============ -->
+<section class="slide" data-title="Capabilities of Analytical Engine">
+  <header class="head"><h2>Capabilities of Analytical Engine</h2><span class="tag">Input → Process → Memory</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>It was designed to solve <strong>mathematical problems</strong>.</li>
+        <li>It could store information as <strong>permanent memory</strong>.</li>
+        <li>Its design introduced ideas associated with modern computers.</li>
+        <li>It was more <strong>general-purpose</strong> than the Difference Engine.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 660 180" role="img" aria-label="Input to processing to memory flow">
+          <g stroke="#2f5d50" stroke-width="2" marker-end="url(#fp1)">
+            <line x1="212" y1="90" x2="268" y2="90"/>
+            <line x1="410" y1="90" x2="466" y2="90"/>
+          </g>
+          <defs>
+            <marker id="fp1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2f5d50"/></marker>
+          </defs>
+          <g text-anchor="middle" font-family="Courier New">
+            <rect x="60" y="55" width="150" height="70" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <text x="135" y="85" font-size="19" font-weight="bold" fill="#36281a">Input</text>
+            <text x="135" y="110" font-size="13" fill="#6b5941">punch cards</text>
+            <rect x="270" y="55" width="140" height="70" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <text x="340" y="85" font-size="19" font-weight="bold" fill="#36281a">Processing</text>
+            <text x="340" y="110" font-size="13" fill="#6b5941">calculations</text>
+            <rect x="468" y="55" width="150" height="70" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <text x="543" y="85" font-size="19" font-weight="bold" fill="#36281a">Memory</text>
+            <text x="543" y="110" font-size="13" fill="#6b5941">store results</text>
+          </g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: ADA LOVELACE -->
+<section class="slide divider" data-title="Ada Lovelace — Section">
+  <div class="dnum">23</div>
+  <h2>Ada Lovelace</h2>
+  <div class="hline"></div>
+  <span class="chapter">First computer programmer</span>
+</section>
+
+<!-- ============ 25. LADY AUGUSTA ADA LOVELACE ============ -->
+<section class="slide" data-title="Lady Augusta Ada Lovelace">
+  <header class="head"><h2>Lady Augusta Ada Lovelace</h2><span class="tag">First programmer</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Lady Augusta Ada Lovelace worked with <strong>Charles Babbage</strong>.</li>
+        <li>She recognized techniques for computing.</li>
+        <li>She worked on writing <strong>programs</strong> for computers.</li>
+        <li>She is described as the <strong>first computer programmer</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/ada-lovelace.jpg" alt="Portrait of Ada Lovelace"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: TABULATING MACHINE -->
+<section class="slide divider" data-title="Tabulating Machine — Section">
+  <div class="dnum">24</div>
+  <h2>Tabulating Machine</h2>
+  <div class="hline"></div>
+  <span class="chapter">Herman Hollerith · 1890</span>
+</section>
+
+<!-- ============ 26. TABULATING MACHINE ============ -->
+<section class="slide" data-title="Tabulating Machine">
+  <header class="head"><h2>Tabulating Machine</h2><span class="tag">1890</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Invented in <strong>1890</strong>.</li>
+        <li>Invented by <strong>Herman Hollerith</strong>.</li>
+        <li>Hollerith was an American statistician.</li>
+        <li>It was a mechanical tabulating machine.</li>
+        <li>It was based on <strong>punch cards</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/hollerith-machine.jpg" alt="Herman Hollerith's tabulating machine"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 27. USES OF TABULATING MACHINE ============ -->
+<section class="slide" data-title="Uses of Tabulating Machine">
+  <header class="head"><h2>Uses of Tabulating Machine</h2><span class="tag">Punch cards → statistics</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>It could <strong>tabulate statistics</strong>.</li>
+        <li>It could <strong>record data</strong>.</li>
+        <li>It could <strong>sort data</strong>.</li>
+        <li>It was used in the <strong>1890 U.S. Census</strong>.</li>
+        <li>Hollerith later established the Hollerith Tabulating Machine Company.</li>
+        <li>The company later became <strong>International Business Machines (IBM)</strong> in 1924.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 680 200" role="img" aria-label="Punch cards to tabulating machine to statistics">
+          <g stroke="#a14e24" stroke-width="2" marker-end="url(#fp2)">
+            <line x1="228" y1="100" x2="278" y2="100"/>
+            <line x1="436" y1="100" x2="486" y2="100"/>
+          </g>
+          <defs>
+            <marker id="fp2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#a14e24"/></marker>
+          </defs>
+          <g font-family="Courier New" text-anchor="middle">
+            <rect x="20" y="40" width="206" height="120" rx="6" fill="#fffcf0" stroke="#6b4f2a" stroke-width="2"/>
+            <image href="images/hollerith-card.jpg" x="40" y="52" width="166" height="72" preserveAspectRatio="xMidYMid meet"/>
+            <text x="123" y="146" font-size="16" font-weight="bold" fill="#36281a">Punch cards</text>
+            <rect x="280" y="40" width="154" height="120" rx="6" fill="#fffcf0" stroke="#6b4f2a" stroke-width="2"/>
+            <image href="images/hollerith-machine.jpg" x="290" y="52" width="134" height="72" preserveAspectRatio="xMidYMid meet"/>
+            <text x="357" y="146" font-size="15" font-weight="bold" fill="#36281a">Machine</text>
+            <rect x="488" y="40" width="180" height="120" rx="6" fill="#fffcf0" stroke="#6b4f2a" stroke-width="2"/>
+            <g fill="#a14e24"><rect x="510" y="122" width="18" height="24"/><rect x="536" y="104" width="18" height="42"/><rect x="562" y="112" width="18" height="34"/><rect x="588" y="84" width="18" height="62"/><rect x="614" y="96" width="18" height="50"/></g>
+            <text x="578" y="146" font-size="15" font-weight="bold" fill="#36281a">Statistics</text>
+          </g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: ELECTRO-MECHANICAL ERA -->
+<section class="slide divider" data-title="Electro-Mechanical Era">
+  <div class="dnum">26</div>
+  <h2>Electro-Mechanical Era</h2>
+  <div class="hline"></div>
+  <span class="chapter">Chapter — Mechanics + Electricity</span>
+</section>
+
+<!-- ============ 28. ELECTRO-MECHANICAL ERA ============ -->
+<section class="slide" data-title="Electro-Mechanical Era">
+  <header class="head"><h2>Electro-Mechanical Era</h2><span class="tag">Chapter</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Computing entered the <strong>electro-mechanical</strong> era.</li>
+        <li>Mechanical systems began working together with <strong>electricity</strong>.</li>
+        <li>This combined:
+          <ul>
+            <li>Mechanical computation</li>
+            <li>Electrical technology</li>
+          </ul>
+        </li>
+        <li>This development prepared the way for <strong>electronic computers</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 620 240" role="img" aria-label="Mechanical gears connected to electrical components">
+          <g stroke="#5c3a1e" stroke-width="3" stroke-linecap="round">
+            <line x1="120" y1="92" x2="142" y2="92"/><line x1="158" y1="92" x2="180" y2="92"/>
+            <line x1="120" y1="148" x2="142" y2="148"/><line x1="158" y1="148" x2="180" y2="148"/>
+            <line x1="112" y1="108" x2="130" y2="108"/><line x1="112" y1="132" x2="130" y2="132"/>
+            <line x1="170" y1="108" x2="188" y2="108"/><line x1="170" y1="132" x2="188" y2="132"/>
+          </g>
+          <g>
+            <circle cx="150" cy="120" r="30" fill="#b8935f" stroke="#5c3a1e" stroke-width="3"/>
+            <circle cx="150" cy="120" r="10" fill="#8a5a2b"/>
+            <circle cx="150" cy="120" r="48" fill="none" stroke="#5c3a1e" stroke-width="2" stroke-dasharray="6 6"/>
+          </g>
+          <path d="M228,120 L282,120" stroke="#a14e24" stroke-width="2" marker-end="url(#em1)"/>
+          <g transform="translate(300,120)">
+            <rect x="-55" y="-34" width="110" height="68" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="3"/>
+            <path d="M-6,-34 L-6,-8 L6,-20 L-6,-8 L6,-2 L-6,6 L6,-2 L-6,6 L-6,34" fill="#a14e24"/>
+            <path d="M-30,-22 L-30,22 L-24,22 L-24,-22 Z" fill="#2f5d50"/>
+            <path d="M-36,-16 L-36,16 L-30,16 L-30,-16 Z" fill="#2f5d50" opacity=".8"/>
+          </g>
+          <defs>
+            <marker id="em1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#a14e24"/></marker>
+          </defs>
+          <text x="150" y="215" font-family="Courier New" font-size="16" text-anchor="middle" fill="#36281a">Mechanical computation</text>
+          <text x="380" y="215" font-family="Courier New" font-size="16" text-anchor="middle" fill="#36281a">Electrical technology</text>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: MARK I -->
+<section class="slide divider" data-title="Mark I — Section">
+  <div class="dnum">27</div>
+  <h2>Mark I</h2>
+  <div class="hline"></div>
+  <span class="chapter">Howard Hathaway Aiken · 1944</span>
+</section>
+
+<!-- ============ 29. MARK I / HOWARD HATHAWAY AIKEN ============ -->
+<section class="slide" data-title="Mark I / Howard Hathaway Aiken">
+  <header class="head"><h2>Mark I / Howard Hathaway Aiken</h2><span class="tag">1944</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Major changes in computer history began in <strong>1937</strong>.</li>
+        <li><strong>Howard Aiken</strong> planned a machine capable of large calculations.</li>
+        <li>Mark I was developed as a partnership between <strong>IBM and Harvard</strong>.</li>
+        <li>The machine was completed in <strong>1944</strong>.</li>
+        <li>It was the <strong>first programmable digital computer</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/mark-i.jpg" alt="Harvard Mark I computer"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: ATANASOFF-BERRY COMPUTER -->
+<section class="slide divider" data-title="Atanasoff-Berry Computer — Section">
+  <div class="dnum">28</div>
+  <h2>Atanasoff-Berry Computer</h2>
+  <div class="hline"></div>
+  <span class="chapter">ABC · John Vincent Atanasoff</span>
+</section>
+
+<!-- ============ 30. ATANASOFF-BERRY COMPUTER (ABC) ============ -->
+<section class="slide" data-title="Atanasoff-Berry Computer (ABC)">
+  <header class="head"><h2>Atanasoff-Berry Computer (ABC)</h2><span class="tag">1942</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Developed by <strong>John Vincent Atanasoff</strong>.</li>
+        <li>Atanasoff was a professor of mathematics and physics.</li>
+        <li>He worked with graduate student <strong>Clifford Berry</strong>.</li>
+        <li>ABC was designed to solve systems of <strong>linear equations</strong>.</li>
+        <li>It was successfully tested in <strong>1942</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/abc.jpg" alt="Atanasoff-Berry Computer"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 31. ABC'S PURPOSE ============ -->
+<section class="slide" data-title="ABC's Purpose">
+  <header class="head"><h2>ABC's Purpose</h2><span class="tag">Linear equations</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>ABC was designed for solving <strong>mathematical equations</strong>.</li>
+        <li>It could handle systems containing up to <strong>29 equations</strong>.</li>
+        <li>Such calculations were difficult to perform at the time.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <div style="display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap">
+          <svg viewBox="0 0 300 190" role="img" aria-label="System of equations">
+            <rect x="20" y="20" width="260" height="150" rx="6" fill="#fffcf0" stroke="#6b4f2a" stroke-width="2"/>
+            <g font-family="Courier New" font-size="20" fill="#36281a">
+              <text x="60" y="80">x + y = 5</text>
+              <text x="60" y="118">2x − y = 4</text>
+            </g>
+            <text x="150" y="152" font-family="Courier New" font-size="13" fill="#2f5d50" text-anchor="middle">up to 29 equations</text>
+          </svg>
+          <img src="images/abc.jpg" alt="ABC computer" style="max-height:44vh">
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: ELECTRONIC ERA -->
+<section class="slide divider" data-title="Electronic Era">
+  <div class="dnum">30</div>
+  <h2>Electronic Era</h2>
+  <div class="hline"></div>
+  <span class="chapter">Chapter — Vacuum tubes → Transistors → ICs</span>
+</section>
+
+<!-- ============ 32. THE ELECTRONIC ERA ============ -->
+<section class="slide" data-title="The Electronic Era">
+  <header class="head"><h2>The Electronic Era</h2><span class="tag">Chapter</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Computers began using <strong>electronic components</strong>.</li>
+        <li>Major components included:
+          <ul>
+            <li>Vacuum tubes</li>
+            <li>Diodes</li>
+            <li>Transistors</li>
+            <li>Integrated circuits (IC)</li>
+            <li>LSI</li>
+            <li>VLSI</li>
+            <li>ULSI</li>
+          </ul>
+        </li>
+        <li>These technologies made computers increasingly powerful and compact.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <div style="display:flex;gap:14px;align-items:center">
+          <img src="images/vacuum-tube.jpg" alt="Vacuum tube" style="max-height:34vh">
+          <svg width="40" height="30" viewBox="0 0 40 30"><path d="M0,15 L34,15" stroke="#a14e24" stroke-width="3" marker-end="url(#ev1)"/><defs><marker id="ev1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#a14e24"/></marker></defs></svg>
+          <img src="images/transistor.jpg" alt="Transistors" style="max-height:34vh">
+          <svg width="40" height="30" viewBox="0 0 40 30"><path d="M0,15 L34,15" stroke="#a14e24" stroke-width="3" marker-end="url(#ev2)"/><defs><marker id="ev2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#a14e24"/></marker></defs></svg>
+          <img src="images/ic.jpg" alt="Integrated circuit" style="max-height:34vh">
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: FIRST GENERATION -->
+<section class="slide divider" data-title="First Generation">
+  <div class="dnum">31</div>
+  <h2>First Generation</h2>
+  <div class="hline"></div>
+  <span class="chapter">1940–1956 AD · Vacuum tubes</span>
+</section>
+
+<!-- ============ 33. FIRST GENERATION COMPUTERS ============ -->
+<section class="slide" data-title="First Generation Computers">
+  <header class="head"><h2>First Generation Computers</h2><span class="tag">1940–1956</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>First generation: <strong>1940–1956 AD</strong>.</li>
+        <li>Computers were:
+          <ul>
+            <li>Slow</li>
+            <li>Huge</li>
+            <li>Expensive</li>
+          </ul>
+        </li>
+        <li><strong>Vacuum tubes</strong> were the main components.</li>
+        <li>Vacuum tubes were used in:
+          <ul>
+            <li>CPU</li>
+            <li>Memory</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/vacuum-computer-1.jpg" alt="Large vacuum-tube computer"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 34. FIRST GENERATION: INPUT AND OUTPUT ============ -->
+<section class="slide" data-title="First Generation: Input and Output">
+  <header class="head"><h2>First Generation: Input and Output</h2><span class="tag">I/O devices</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>First-generation computers mainly depended on <strong>batch operating systems</strong>.</li>
+        <li><strong>Punch cards</strong> were used.</li>
+        <li><strong>Magnetic tape</strong> was used.</li>
+        <li><strong>Paper tape</strong> was used.</li>
+        <li>These were used as input and output devices.</li>
+        <li>These computers produced a lot of <strong>heat</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center">
+          <img src="images/punch-card.jpg" alt="Punch cards" style="max-height:34vh">
+          <img src="images/magnetic-tape.jpg" alt="Magnetic tape reel" style="max-height:34vh">
+          <img src="images/ibm-701.jpg" alt="First-generation computer" style="max-height:34vh">
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: ENIAC -->
+<section class="slide divider" data-title="ENIAC — Section">
+  <div class="dnum">33</div>
+  <h2>ENIAC</h2>
+  <div class="hline"></div>
+  <span class="chapter">Electronic Numerical Integrator and Computer</span>
+</section>
+
+<!-- ============ 35. ENIAC ============ -->
+<section class="slide" data-title="ENIAC">
+  <header class="head"><h2>ENIAC</h2><span class="tag">1942</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>ENIAC stands for <strong>Electronic Numerical Integrator and Computer</strong>.</li>
+        <li>Developed in <strong>1942 AD</strong>.</li>
+        <li>It was an early electronic computer.</li>
+        <li>It used thousands of electronic components.</li>
+        <li>It occupied about <strong>1,800 square feet</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/eniac.jpg" alt="ENIAC computer"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 36. ENIAC SPECIFICATIONS ============ -->
+<section class="slide" data-title="ENIAC Specifications">
+  <header class="head"><h2>ENIAC Specifications</h2><span class="tag">By the numbers</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Approximately <strong>20,000 vacuum tubes</strong>.</li>
+        <li>Approximately <strong>10,000 capacitors</strong>.</li>
+        <li>Approximately <strong>70,000 resistors</strong>.</li>
+        <li>Used about <strong>200 kilowatts</strong> of electricity.</li>
+        <li>Weighed more than <strong>30 tons</strong>.</li>
+        <li>Cost about <strong>$487,000</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <div style="position:relative;display:flex;align-items:center;justify-content:center">
+          <img src="images/eniac-aberdeen.jpg" alt="ENIAC" style="max-height:52vh">
+          <span class="stat" style="position:absolute;top:4%;left:2%;background:#f1e7cf;border:2px solid #a14e24;border-radius:4px;padding:4px 10px;font-family:'Courier New',monospace;font-size:.85em;color:#a14e24">20,000 tubes</span>
+          <span class="stat" style="position:absolute;bottom:6%;left:0;background:#f1e7cf;border:2px solid #2f5d50;border-radius:4px;padding:4px 10px;font-family:'Courier New',monospace;font-size:.85em;color:#2f5d50">30 tons</span>
+          <span class="stat" style="position:absolute;top:30%;right:-2%;background:#f1e7cf;border:2px solid #a14e24;border-radius:4px;padding:4px 10px;font-family:'Courier New',monospace;font-size:.85em;color:#a14e24">200 kW</span>
+          <span class="stat" style="position:absolute;bottom:30%;right:2%;background:#f1e7cf;border:2px solid #2f5d50;border-radius:4px;padding:4px 10px;font-family:'Courier New',monospace;font-size:.85em;color:#2f5d50">$487,000</span>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: EDVAC -->
+<section class="slide divider" data-title="EDVAC — Section">
+  <div class="dnum">35</div>
+  <h2>EDVAC</h2>
+  <div class="hline"></div>
+  <span class="chapter">Electronic Discrete Variable Automatic Computer</span>
+</section>
+
+<!-- ============ 37. EDVAC ============ -->
+<section class="slide" data-title="EDVAC">
+  <header class="head"><h2>EDVAC</h2><span class="tag">1946</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>EDVAC stands for <strong>Electronic Discrete Variable Automatic Computer</strong>.</li>
+        <li>Developed around <strong>1946 AD</strong>.</li>
+        <li>It was developed after ENIAC.</li>
+        <li>ENIAC required physical changes to its <strong>wiring</strong> to change programs.</li>
+        <li>Reprogramming ENIAC could take <strong>days</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/edvac.jpg" alt="EDVAC computer"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 38. STORED PROGRAM CONCEPT ============ -->
+<section class="slide" data-title="Stored Program Concept">
+  <header class="head"><h2>Stored Program Concept</h2><span class="tag">Program + Data → Memory</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>EDVAC introduced the <strong>stored-program</strong> approach.</li>
+        <li>Programs could be represented electronically.</li>
+        <li>Programs could be stored along with <strong>data</strong>.</li>
+        <li>This reduced the need for physical rewiring.</li>
+        <li>The stored-program concept became a major breakthrough in computer development.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 680 190" role="img" aria-label="Program plus data to memory to computer">
+          <g stroke="#2f5d50" stroke-width="2" marker-end="url(#sp1)">
+            <line x1="262" y1="95" x2="312" y2="95"/>
+            <line x1="478" y1="95" x2="528" y2="95"/>
+          </g>
+          <defs>
+            <marker id="sp1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2f5d50"/></marker>
+          </defs>
+          <g font-family="Courier New" text-anchor="middle">
+            <rect x="70" y="60" width="190" height="70" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <text x="165" y="90" font-size="19" font-weight="bold" fill="#36281a">Program + Data</text>
+            <text x="165" y="114" font-size="13" fill="#6b5941">stored together</text>
+            <rect x="314" y="60" width="164" height="70" rx="6" fill="#fffcf0" stroke="#2f5d50" stroke-width="3"/>
+            <text x="396" y="90" font-size="19" font-weight="bold" fill="#2f5d50">Memory</text>
+            <text x="396" y="114" font-size="13" fill="#6b5941">no rewiring</text>
+            <rect x="530" y="60" width="140" height="70" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <text x="600" y="90" font-size="19" font-weight="bold" fill="#36281a">Computer</text>
+            <text x="600" y="114" font-size="13" fill="#6b5941">executes</text>
+          </g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 39. JOHN VON NEUMANN AND STORED PROGRAMS ============ -->
+<section class="slide" data-title="John von Neumann and Stored Programs">
+  <header class="head"><h2>John von Neumann and Stored Programs</h2><span class="tag">Breakthrough</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li><strong>John von Neumann</strong> is often associated with the stored-program concept.</li>
+        <li>He published a description of the concept.</li>
+        <li>Earlier work on the idea existed in <strong>Eckert's notes</strong>.</li>
+        <li>The breakthrough allowed computation steps to be represented electronically.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <div style="display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap">
+          <img src="images/von-neumann.jpg" alt="Portrait of John von Neumann" style="max-height:46vh">
+          <svg viewBox="0 0 240 200" role="img" aria-label="Memory storing program and data">
+            <rect x="30" y="20" width="180" height="160" rx="6" fill="#fffcf0" stroke="#2f5d50" stroke-width="3"/>
+            <text x="120" y="52" font-family="Courier New" font-size="16" font-weight="bold" fill="#2f5d50" text-anchor="middle">Memory</text>
+            <rect x="52" y="70" width="136" height="34" rx="4" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <text x="120" y="93" font-family="Courier New" font-size="15" fill="#36281a" text-anchor="middle">Program</text>
+            <rect x="52" y="116" width="136" height="34" rx="4" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <text x="120" y="139" font-family="Courier New" font-size="15" fill="#36281a" text-anchor="middle">Data</text>
+          </svg>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: EDSAC -->
+<section class="slide divider" data-title="EDSAC — Section">
+  <div class="dnum">38</div>
+  <h2>EDSAC</h2>
+  <div class="hline"></div>
+  <span class="chapter">Electronic Delay Storage Automatic Calculator</span>
+</section>
+
+<!-- ============ 40. EDSAC ============ -->
+<section class="slide" data-title="EDSAC">
+  <header class="head"><h2>EDSAC</h2><span class="tag">1949</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>EDSAC stands for <strong>Electronic Delay Storage Automatic Calculator</strong>.</li>
+        <li>Developed in <strong>Britain</strong>.</li>
+        <li>It was created at the <strong>University of Cambridge</strong>.</li>
+        <li>It was an early stored-program electronic computer.</li>
+        <li>Its first calculation was performed on <strong>6 May 1949</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/edsac.jpg" alt="EDSAC computer"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 41. EDSAC AND OXO ============ -->
+<section class="slide" data-title="EDSAC and OXO">
+  <header class="head"><h2>EDSAC and OXO</h2><span class="tag">Early gaming</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>EDSAC has an important place in computer-game history.</li>
+        <li>It ran <strong>OXO</strong>.</li>
+        <li>OXO was an implementation of <strong>tic-tac-toe</strong>.</li>
+        <li>It is associated with one of the <strong>earliest graphical computer games</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 320 360" role="img" aria-label="OXO tic-tac-toe board">
+          <rect x="20" y="20" width="280" height="300" rx="8" fill="#fffcf0" stroke="#6b4f2a" stroke-width="3"/>
+          <g stroke="#36281a" stroke-width="4">
+            <line x1="115" y1="30" x2="115" y2="310"/>
+            <line x1="205" y1="30" x2="205" y2="310"/>
+            <line x1="30" y1="115" x2="290" y2="115"/>
+            <line x1="30" y1="205" x2="290" y2="205"/>
+          </g>
+          <g stroke="#a14e24" stroke-width="8" stroke-linecap="round">
+            <line x1="55" y1="55" x2="85" y2="85"/><line x1="85" y1="55" x2="55" y2="85"/>
+            <line x1="145" y1="55" x2="175" y2="85"/><line x1="175" y1="55" x2="145" y2="85"/>
+          </g>
+          <g fill="none" stroke="#2f5d50" stroke-width="8">
+            <circle cx="240" cy="70" r="15"/><circle cx="80" cy="160" r="15"/><circle cx="160" cy="160" r="15"/>
+            <circle cx="240" cy="160" r="15"/><circle cx="80" cy="250" r="15"/><circle cx="160" cy="250" r="15"/><circle cx="240" cy="250" r="15"/>
+          </g>
+          <text x="160" y="345" font-family="Courier New" font-size="18" font-weight="bold" fill="#2f5d50" text-anchor="middle">OXO</text>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: UNIVAC -->
+<section class="slide divider" data-title="UNIVAC — Section">
+  <div class="dnum">40</div>
+  <h2>UNIVAC</h2>
+  <div class="hline"></div>
+  <span class="chapter">Universal Automatic Computer</span>
+</section>
+
+<!-- ============ 42. UNIVAC ============ -->
+<section class="slide" data-title="UNIVAC">
+  <header class="head"><h2>UNIVAC</h2><span class="tag">1950</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>UNIVAC stands for <strong>Universal Automatic Computer</strong>.</li>
+        <li>Developed around <strong>1950 AD</strong>.</li>
+        <li>It was a general-purpose electronic digital computer.</li>
+        <li>It was designed for <strong>business applications</strong>.</li>
+        <li>It was produced in the United States.</li>
+        <li>It was developed by <strong>J. Presper Eckert and John Mauchly</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/univac.jpg" alt="UNIVAC computer"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 43. UNIVAC AND COMMERCIAL COMPUTING ============ -->
+<section class="slide" data-title="UNIVAC and Commercial Computing">
+  <header class="head"><h2>UNIVAC and Commercial Computing</h2><span class="tag">First commercial</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>By the end of the 1950s, computers were no longer only unique research machines.</li>
+        <li>Computers began being <strong>commercially produced</strong>.</li>
+        <li>UNIVAC became a famous commercial computer.</li>
+        <li>The first UNIVAC was sold to the <strong>U.S. Census Bureau</strong>.</li>
+        <li>UNIVAC was the first computer to employ <strong>magnetic tape</strong>.</li>
+        <li>It became the <strong>first commercially used electronic computer</strong> in the world.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/univac-tape.jpg" alt="UNIVAC with magnetic tape"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: GENERATIONS -->
+<section class="slide divider" data-title="Generations of Computers">
+  <div class="dnum">42</div>
+  <h2>Generations of Computers</h2>
+  <div class="hline"></div>
+  <span class="chapter">Chapter — Classifying by technology</span>
+</section>
+
+<!-- ============ 44. WHAT IS A COMPUTER GENERATION? ============ -->
+<section class="slide" data-title="What Is a Computer Generation?">
+  <header class="head"><h2>What Is a Computer Generation?</h2><span class="tag">Classification</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Computer generations classify computers according to their <strong>technology</strong>.</li>
+        <li>Classification considers:
+          <ul>
+            <li>Hardware</li>
+            <li>Memory devices</li>
+            <li>Software</li>
+          </ul>
+        </li>
+        <li>Each generation is characterized by a major technological development.</li>
+        <li>New technology changed how computers operated.</li>
+        <li>Computers became increasingly:
+          <ul>
+            <li>Smaller</li>
+            <li>Cheaper</li>
+            <li>More powerful</li>
+            <li>More efficient</li>
+            <li>More reliable</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 700 180" role="img" aria-label="Five-stage generic computer evolution">
+          <g stroke="#a14e24" stroke-width="2" marker-end="url(#gn1)">
+            <line x1="142" y1="95" x2="182" y2="95"/><line x1="282" y1="95" x2="322" y2="95"/>
+            <line x1="422" y1="95" x2="462" y2="95"/><line x1="562" y1="95" x2="602" y2="95"/>
+          </g>
+          <defs>
+            <marker id="gn1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#a14e24"/></marker>
+          </defs>
+          <g font-family="Courier New" text-anchor="middle">
+            <rect x="40" y="40" width="100" height="100" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <circle cx="90" cy="78" r="16" fill="none" stroke="#36281a" stroke-width="3"/>
+            <circle cx="90" cy="78" r="5" fill="#a14e24"/>
+            <text x="90" y="124" font-size="16" font-weight="bold" fill="#36281a">Gen 1</text>
+            <rect x="184" y="40" width="100" height="100" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <rect x="222" y="60" width="24" height="34" rx="2" fill="none" stroke="#36281a" stroke-width="3"/>
+            <g stroke="#36281a" stroke-width="2"><line x1="222" y1="72" x2="246" y2="72"/><line x1="222" y1="84" x2="246" y2="84"/></g>
+            <text x="234" y="124" font-size="16" font-weight="bold" fill="#36281a">Gen 2</text>
+            <rect x="324" y="40" width="100" height="100" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <rect x="352" y="62" width="44" height="44" rx="2" fill="#2f5d50"/>
+            <g stroke="#dcebe4" stroke-width="2"><line x1="352" y1="76" x2="366" y2="76"/><line x1="352" y1="88" x2="366" y2="88"/></g>
+            <text x="374" y="124" font-size="16" font-weight="bold" fill="#36281a">Gen 3</text>
+            <rect x="464" y="40" width="100" height="100" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <rect x="488" y="62" width="52" height="52" rx="2" fill="#2f5d50"/>
+            <rect x="500" y="74" width="28" height="28" fill="#dcebe4"/>
+            <text x="514" y="124" font-size="16" font-weight="bold" fill="#36281a">Gen 4</text>
+            <rect x="604" y="40" width="100" height="100" rx="6" fill="#c9b890" stroke="#6b4f2a" stroke-width="2"/>
+            <path d="M640,66 c-10,-14 14,-26 24,-12 c14,-12 30,0 22,16 c8,8 -2,20 -12,16 c-10,8 -26,2 -30,-8 c-6,-4 -6,-10 -4,-12 Z" fill="#a14e24"/>
+            <text x="654" y="124" font-size="16" font-weight="bold" fill="#36281a">Gen 5</text>
+          </g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 45. FIRST GENERATION: OVERVIEW ============ -->
+<section class="slide" data-title="First Generation: Overview">
+  <header class="head"><h2>First Generation: Overview</h2><span class="tag">Recap</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>First generation: <strong>1940–1956 AD</strong>.</li>
+        <li>Main technology: <strong>vacuum tubes</strong>.</li>
+        <li>Computers were large and expensive.</li>
+        <li>Computers were slow compared with later generations.</li>
+        <li>They produced significant heat.</li>
+        <li>They relied heavily on punch cards, magnetic tape and paper tape.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/ibm-701.jpg" alt="A large vacuum-tube computer"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: FIRST GENERATION COMPUTERS -->
+<section class="slide divider" data-title="First Generation Computers — Section">
+  <div class="dnum">44</div>
+  <h2>First Generation Computers</h2>
+  <div class="hline"></div>
+  <span class="chapter">The machines</span>
+</section>
+
+<!-- ============ 46. POPULAR FIRST-GENERATION COMPUTERS ============ -->
+<section class="slide" data-title="Popular First-Generation Computers">
+  <header class="head"><h2>Popular First-Generation Computers</h2><span class="tag">The machines</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li><strong>ABC</strong> — Atanasoff-Berry Computer</li>
+        <li><strong>ENIAC</strong> — Electronic Numerical Integrator and Computer</li>
+        <li><strong>EDVAC</strong> — Electronic Discrete Variable Automatic Computer</li>
+        <li><strong>UNIVAC I</strong> — Universal Automatic Computer</li>
+        <li><strong>IBM-701</strong></li>
+        <li><strong>IBM-650</strong></li>
+        <li><strong>Mark-I, II, III</strong></li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-height:56vh">
+          <img src="images/eniac.jpg" alt="ENIAC" style="max-height:27vh">
+          <img src="images/univac.jpg" alt="UNIVAC" style="max-height:27vh">
+          <img src="images/ibm-701.jpg" alt="IBM-701" style="max-height:27vh">
+          <img src="images/mark-i.jpg" alt="Mark I" style="max-height:27vh">
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 47. VACUUM TUBE ============ -->
+<section class="slide" data-title="Vacuum Tube">
+  <header class="head"><h2>Vacuum Tube</h2><span class="tag">Key component</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>Vacuum tubes were basic components of <strong>first-generation computers</strong>.</li>
+        <li>They were used for <strong>electronic processing</strong>.</li>
+        <li>Vacuum tubes were large compared with later electronic components.</li>
+        <li>They generated significant <strong>heat</strong>.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot"><img src="images/vacuum-tube-large.jpg" alt="A large single vacuum tube"></div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 48. PARTS OF A VACUUM TUBE ============ -->
+<section class="slide" data-title="Parts of a Vacuum Tube">
+  <header class="head"><h2>Parts of a Vacuum Tube</h2><span class="tag">Anatomy</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li><strong>Cathode</strong></li>
+        <li><strong>Anode</strong></li>
+        <li><strong>Control grid</strong></li>
+        <li><strong>Glass</strong></li>
+        <li><strong>Base pins</strong></li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 560 440" role="img" aria-label="Vacuum tube diagram with the five labeled parts">
+          <path d="M150,60 C150,20 410,20 410,60 L420,300 L410,330 L150,330 L140,300 Z" fill="#e6f0ec" stroke="#2f5d50" stroke-width="3"/>
+          <line x1="150" y1="330" x2="410" y2="330" stroke="#8a5a2b" stroke-width="14"/>
+          <g stroke="#6b4f2a" stroke-width="5">
+            <line x1="185" y1="330" x2="185" y2="385"/><line x1="245" y1="330" x2="245" y2="385"/>
+            <line x1="315" y1="330" x2="315" y2="385"/><line x1="375" y1="330" x2="375" y2="385"/>
+          </g>
+          <path d="M190,150 L190,70 M370,150 L370,70" stroke="#a14e24" stroke-width="6"/>
+          <rect x="180" y="150" width="200" height="60" rx="4" fill="none" stroke="#36281a" stroke-width="4"/>
+          <path d="M195,180 c30,-22 60,22 90,0 c30,-22 60,22 90,0" fill="none" stroke="#8a5a2b" stroke-width="4"/>
+          <line x1="280" y1="210" x2="280" y2="330" stroke="#36281a" stroke-width="4"/>
+          <path d="M280,150 L280,90" stroke="#36281a" stroke-width="5"/>
+          <g font-family="Courier New" font-size="17" fill="#36281a">
+            <line x1="95" y1="100" x2="185" y2="100" stroke="#a14e24" stroke-width="2"/><text x="20" y="106">Cathode</text>
+            <line x1="75" y1="180" x2="176" y2="180" stroke="#36281a" stroke-width="2"/><text x="20" y="186">Anode</text>
+            <line x1="150" y1="235" x2="196" y2="235" stroke="#8a5a2b" stroke-width="2"/><text x="20" y="241">Control grid</text>
+            <line x1="462" y1="120" x2="420" y2="120" stroke="#2f5d50" stroke-width="2"/><text x="472" y="126" fill="#2f5d50">Glass</text>
+            <line x1="462" y1="360" x2="420" y2="360" stroke="#6b4f2a" stroke-width="2"/><text x="472" y="366" fill="#6b4f2a">Base pins</text>
+          </g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: HISTORICAL FUN FACTS -->
+<section class="slide divider" data-title="Historical Fun Facts">
+  <div class="dnum">47</div>
+  <h2>Historical Fun Facts</h2>
+  <div class="hline"></div>
+  <span class="chapter">Touchscreen · Ball mouse · OLED</span>
+</section>
+
+<!-- ============ 49. TECHNOLOGY FUN FACTS ============ -->
+<section class="slide" data-title="Technology Fun Facts">
+  <header class="head"><h2>Technology Fun Facts</h2><span class="tag">Did you know?</span></header>
+  <div class="body">
+    <div class="bullets">
+      <ul>
+        <li>The first sensitive touch-screen display was developed by <strong>George Samuel Hurst in 1975</strong>.</li>
+        <li>It was not produced and used until <strong>1982</strong>.</li>
+        <li>In <strong>1972</strong>, Bill English created the <strong>“Ball Mouse.”</strong></li>
+        <li>The ball mouse was later replaced by the laser mouse.</li>
+        <li><strong>OLED monitor</strong> is described in the text as the latest technology.</li>
+        <li><strong>Typewrite</strong> is described as the longest word that can be written using letters from only one row of a computer keyboard.</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <div class="shot">
+        <svg viewBox="0 0 660 220" role="img" aria-label="Touchscreen, ball mouse and OLED monitor icons">
+          <g font-family="Courier New" text-anchor="middle">
+            <rect x="40" y="30" width="120" height="180" rx="10" fill="none" stroke="#36281a" stroke-width="4"/>
+            <rect x="56" y="48" width="88" height="120" rx="4" fill="#2f5d50"/>
+            <circle cx="100" cy="150" r="8" fill="#f1e7cf"/>
+            <path d="M70,120 L88,138 L106,118 M88,138 L88,170" stroke="#a14e24" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <text x="100" y="216" font-size="14" font-weight="bold" fill="#36281a">Touchscreen</text>
+            <ellipse cx="330" cy="110" rx="70" ry="80" fill="#c9b890" stroke="#36281a" stroke-width="4"/>
+            <circle cx="330" cy="120" r="26" fill="#8a5a2b" stroke="#5c3a1e" stroke-width="3"/>
+            <path d="M330,30 Q330,0 400,10 L410,22" stroke="#6b5941" stroke-width="4" fill="none"/>
+            <text x="330" y="220" font-size="14" font-weight="bold" fill="#36281a">Ball Mouse</text>
+            <rect x="500" y="40" width="140" height="92" rx="4" fill="#2f5d50" stroke="#1e3d34" stroke-width="3"/>
+            <rect x="512" y="52" width="116" height="64" rx="2" fill="#b7d4c8"/>
+            <rect x="540" y="140" width="60" height="34" fill="#c19a6b" stroke="#6b4f2a" stroke-width="2"/>
+            <rect x="568" y="174" width="44" height="18" fill="#c19a6b" stroke="#6b4f2a" stroke-width="2"/>
+            <text x="570" y="220" font-size="14" font-weight="bold" fill="#36281a">OLED Monitor</text>
+          </g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- divider: FINAL TIMELINE -->
+<section class="slide divider" data-title="Final Timeline">
+  <div class="dnum">48</div>
+  <h2>Final Timeline</h2>
+  <div class="hline"></div>
+  <span class="chapter">From Abacus to Electronic Computer</span>
+</section>
+
+<!-- ============ 50. FROM ABACUS TO ELECTRONIC COMPUTER ============ -->
+<section class="slide" data-title="From Abacus to Electronic Computer">
+  <header class="head"><h2>From Abacus to Electronic Computer</h2><span class="tag">Full timeline</span></header>
+  <div class="body" style="flex-direction:column;justify-content:space-between">
+    <div class="bullets" style="flex:none">
+      <ul style="display:grid;grid-template-columns:repeat(3,1fr);column-gap:24px">
+        <li>Abacus — ~4000 years ago</li>
+        <li>Napier's Bones — 1617</li>
+        <li>Slide Rule — 1620</li>
+        <li>Pascaline — 1642–1644</li>
+        <li>Stepped Reckoner — 1673</li>
+        <li>Difference Engine — early 1820s</li>
+        <li>Analytical Engine — 1830</li>
+        <li>Ada Lovelace's work — 1834</li>
+        <li>Tabulating Machine — 1890</li>
+        <li>Mark I — 1944</li>
+        <li>ABC — 1942</li>
+        <li>ENIAC — 1942</li>
+        <li>EDVAC — 1946</li>
+        <li>EDSAC — 1949</li>
+        <li>UNIVAC — 1950</li>
+      </ul>
+    </div>
+    <figure class="fig" style="flex:1">
+      <div class="shot">
+        <svg viewBox="0 0 1180 300" role="img" aria-label="Horizontal timeline from abacus to UNIVAC">
+          <text x="30" y="80" font-family="Courier New" font-size="13" font-weight="bold" fill="#a14e24">Mechanical era</text>
+          <line x1="95" y1="85" x2="1105" y2="85" stroke="#a08a62" stroke-width="3"/>
+          <g font-family="Courier New" text-anchor="middle">
+            <g><circle cx="95" cy="85" r="6" fill="#a14e24"/><text x="95" y="62" font-size="14" font-weight="bold" fill="#36281a">~4000 yrs</text><text x="95" y="112" font-size="12" fill="#6b5941">Abacus</text></g>
+            <g><circle cx="240" cy="85" r="6" fill="#a14e24"/><text x="240" y="62" font-size="14" font-weight="bold" fill="#36281a">1617</text><text x="240" y="112" font-size="12" fill="#6b5941">Napier's Bones</text></g>
+            <g><circle cx="385" cy="85" r="6" fill="#a14e24"/><text x="385" y="62" font-size="14" font-weight="bold" fill="#36281a">1620</text><text x="385" y="112" font-size="12" fill="#6b5941">Slide Rule</text></g>
+            <g><circle cx="530" cy="85" r="6" fill="#a14e24"/><text x="530" y="62" font-size="14" font-weight="bold" fill="#36281a">1642–44</text><text x="530" y="112" font-size="12" fill="#6b5941">Pascaline</text></g>
+            <g><circle cx="675" cy="85" r="6" fill="#a14e24"/><text x="675" y="62" font-size="14" font-weight="bold" fill="#36281a">1673</text><text x="675" y="112" font-size="12" fill="#6b5941">Stepped Reckoner</text></g>
+            <g><circle cx="820" cy="85" r="6" fill="#a14e24"/><text x="820" y="62" font-size="14" font-weight="bold" fill="#36281a">1820s</text><text x="820" y="112" font-size="12" fill="#6b5941">Difference Engine</text></g>
+            <g><circle cx="965" cy="85" r="6" fill="#a14e24"/><text x="965" y="62" font-size="14" font-weight="bold" fill="#36281a">1830</text><text x="965" y="112" font-size="12" fill="#6b5941">Analytical Engine</text></g>
+            <g><circle cx="1105" cy="85" r="6" fill="#a14e24"/><text x="1105" y="62" font-size="14" font-weight="bold" fill="#36281a">1834</text><text x="1105" y="112" font-size="12" fill="#6b5941">Ada's work</text></g>
+          </g>
+          <text x="30" y="220" font-family="Courier New" font-size="13" font-weight="bold" fill="#2f5d50">Electronic era</text>
+          <line x1="170" y1="225" x2="1105" y2="225" stroke="#a08a62" stroke-width="3"/>
+          <g font-family="Courier New" text-anchor="middle">
+            <g><circle cx="170" cy="225" r="6" fill="#2f5d50"/><text x="170" y="202" font-size="14" font-weight="bold" fill="#36281a">1890</text><text x="170" y="252" font-size="12" fill="#6b5941">Tabulating Machine</text></g>
+            <g><circle cx="350" cy="225" r="6" fill="#2f5d50"/><text x="350" y="202" font-size="14" font-weight="bold" fill="#36281a">1942</text><text x="350" y="252" font-size="12" fill="#6b5941">ABC</text></g>
+            <g><circle cx="530" cy="225" r="6" fill="#2f5d50"/><text x="530" y="202" font-size="14" font-weight="bold" fill="#36281a">1942</text><text x="530" y="252" font-size="12" fill="#6b5941">ENIAC</text></g>
+            <g><circle cx="710" cy="225" r="6" fill="#2f5d50"/><text x="710" y="202" font-size="14" font-weight="bold" fill="#36281a">1944</text><text x="710" y="252" font-size="12" fill="#6b5941">Mark I</text></g>
+            <g><circle cx="890" cy="225" r="6" fill="#2f5d50"/><text x="890" y="202" font-size="14" font-weight="bold" fill="#36281a">1946</text><text x="890" y="252" font-size="12" fill="#6b5941">EDVAC</text></g>
+            <g><circle cx="1010" cy="225" r="6" fill="#2f5d50"/><text x="1010" y="202" font-size="14" font-weight="bold" fill="#36281a">1949</text><text x="1010" y="252" font-size="12" fill="#6b5941">EDSAC</text></g>
+            <g><circle cx="1105" cy="225" r="6" fill="#2f5d50"/><text x="1105" y="202" font-size="14" font-weight="bold" fill="#36281a">1950</text><text x="1105" y="252" font-size="12" fill="#6b5941">UNIVAC</text></g>
+          </g>
+        </svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+</main>
+
+<div class="chrome">
+  <button id="prevBtn" title="Previous (←)">‹ Prev</button>
+  <span id="counter">1 / 1</span>
+  <button id="nextBtn" title="Next (→)">Next ›</button>
+  <button id="ovBtn" title="Overview (G)">Grid</button>
+  <button id="fsBtn" title="Fullscreen (F)">Fullscreen</button>
+</div>
+
+<div id="overview">
+  <div class="ov-head"><span>All slides</span><button id="ovClose" style="background:#3a2c1e;color:#f1e7cf;border:1px solid #5c4a37;border-radius:3px;font-family:'Courier New',monospace;padding:4px 12px;cursor:pointer">Close (Esc)</button></div>
+  <div class="grid" id="ovGrid"></div>
+</div>
+
+<script>
+(function(){
+  const slides=[].slice.call(document.querySelectorAll('.slide'));
+  const deck=document.getElementById('deck');
+  const counter=document.getElementById('counter');
+  const prog=document.getElementById('progBar');
+  const ov=document.getElementById('overview');
+  const ovGrid=document.getElementById('ovGrid');
+  let cur=0;
+
+  function label(s){
+    const t=s.dataset.title||s.querySelector('h2').textContent;
+    const k=s.querySelector('.kicker');return k?t+' — '+k.textContent:t;
+  }
+  function go(i){
+    cur=((i%slides.length)+slides.length)%slides.length;
+    slides.forEach((s,j)=>s.classList.toggle('active',j===cur));
+    counter.textContent=(cur+1)+' / '+slides.length;
+    prog.style.width=(((cur+1)/slides.length)*100)+'%';
+    if(ov.classList.contains('show')){buildOv();}
+  }
+  function next(){go(cur+1)}
+  function prev(){go(cur-1)}
+  function buildOv(){
+    ovGrid.innerHTML='';
+    slides.forEach((s,j)=>{
+      const c=document.createElement('div');
+      c.className='card'+(j===cur?' cur':'');
+      c.innerHTML='<span class="n">'+(j+1)+'</span><span class="t">'+label(s)+'</span>';
+      c.onclick=()=>{go(j);ov.classList.remove('show');};
+      ovGrid.appendChild(c);
+    });
+  }
+  function toggleOv(){buildOv();ov.classList.toggle('show');}
+  function toggleFs(){
+    if(document.fullscreenElement){document.exitFullscreen();}
+    else if(document.documentElement.requestFullscreen){document.documentElement.requestFullscreen();}
+  }
+
+  document.getElementById('nextBtn').onclick=next;
+  document.getElementById('prevBtn').onclick=prev;
+  document.getElementById('ovBtn').onclick=toggleOv;
+  document.getElementById('ovClose').onclick=()=>ov.classList.remove('show');
+  document.getElementById('fsBtn').onclick=toggleFs;
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();next();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+    else if(e.key==='Home'){go(0);}
+    else if(e.key==='End'){go(slides.length-1);}
+    else if(e.key.toLowerCase()==='g'){toggleOv();}
+    else if(e.key.toLowerCase()==='f'){toggleFs();}
+    else if(e.key==='Escape'){ov.classList.remove('show');}
+  });
+  go(0);
+})();
+</script>
+</body>
+</html>
